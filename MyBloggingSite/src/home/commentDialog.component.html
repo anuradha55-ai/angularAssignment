@@ -1,0 +1,12 @@
+<h1 mat-dialog-title>Comments</h1>
+<div mat-dialog-content>
+  <mat-list *ngFor="let comment of comments">
+    <mat-list-item>{{comment}}</mat-list-item>
+    <mat-divider></mat-divider>
+  </mat-list>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Close</button>
+</div>
+
+

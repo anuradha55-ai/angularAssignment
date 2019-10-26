@@ -1,0 +1,29 @@
+<mat-card class="example-card" *ngFor="let blog of blogs;">
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image"></div>
+    <mat-card-title>{{blog.title}}</mat-card-title>
+    <mat-card-subtitle>{{blog.subtitle}}</mat-card-subtitle>
+  </mat-card-header>
+  <img mat-card-image src={{blog.imageSrc}}>
+  <mat-card-content>
+    <p>
+      {{blog.description}}
+    </p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-icon-button><mat-icon matTooltip="Like" matTooltipPosition="above" (click)="onLikeButtonClick(blog.id)">thumb_up_alt</mat-icon></button>
+    <mat-label>{{blog.likes}}</mat-label>
+    <button mat-icon-button><mat-icon matTooltip="Check comments" matTooltipPosition="above" (click)="openDialog(blog.id)">comment</mat-icon></button>
+    <mat-label>{{blog.comments.length}}</mat-label>
+
+  </mat-card-actions>
+  <mat-card-actions>
+    <!--<form class="example-form">-->
+      <mat-form-field class="example-full-width" style="margin-left: 10px">
+        <input matInput placeholder="Leave a comment" #comment>
+      </mat-form-field>
+      <button mat-flat-button color="primary" style="margin-left: 20px" (click)="onPostButtonClick(blog.id, comment.value)">Post</button>
+    <!--</form>-->
+  </mat-card-actions>
+</mat-card>
+
