@@ -1,0 +1,13 @@
+<h1 mat-dialog-title>Comments</h1>
+<div mat-dialog-content>
+  <mat-list *ngFor="let comment of comments; let i = index" [attr.data-index]="i">
+    <mat-list-item><mat-checkbox #chkBox [checked]="chkBox.checked" (change)="list_change(i, chkBox.checked)">{{comment.value}}</mat-checkbox></mat-list-item>
+    <mat-divider></mat-divider>
+  </mat-list>
+</div>
+<div mat-dialog-actions>
+  <button mat-button color="primary" (click)="onDeleteClick()">Delete comment(s)</button>
+  <button mat-button color="primary" (click)="onNoClick()">Close</button>
+</div>
+
+
