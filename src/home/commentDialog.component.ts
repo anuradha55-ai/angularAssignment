@@ -17,6 +17,8 @@ export class CommmentDialog {
 
   @ViewChild('chkBox') checkBox: ElementRef;
   blogId : number;
+  commentsToBeKept : comment[] = [];
+  deleteComments : boolean;
 
   constructor(public dialogRef: MatDialogRef<CommmentDialog>, @Inject(MAT_DIALOG_DATA) public comments: comment[], private blogService: BlogService) { }
 
@@ -32,17 +34,25 @@ export class CommmentDialog {
 
 
   onDeleteClick() {
-    console.log("comments : " + JSON.stringify(this.comments));
+   
+    console.log("comments to be kept : " + JSON.stringify(this.commentsToBeKept));
     this.comments.forEach((item, index) => {
       console.log("item : " + item.value + " item checked : " + item.checked + "  index : " + index);
+      if(item.checked == false) {
+        this.commentsToBeKept.push(item);
+      }
     });
-    let commentList = this.comments.filter((element) => {
-      return element.checked = true;
-    });
-    this.comments = commentList;
+    this.deleteComments = true;
+
     this.blogService.blogId$.subscribe(id => {
       this.blogService.blogData$.subscribe(data => {
-        data[id].comments = this.comments;
+        if (this.deleteComments === true) {
+          data[id].comments = this.commentsToBeKept;
+          this.comments = data[id].comments;
+          this.blogService.setUpdatedBlog(data);
+          this.commentsToBeKept = [];
+          this.deleteComments = false;
+        }
       });
     });
   }

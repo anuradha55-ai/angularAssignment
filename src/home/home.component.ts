@@ -19,7 +19,7 @@ export class HomeComponent implements OnInit {
   @ViewChild('comment') comment: ElementRef;
 
   constructor(private blogService: BlogService, public dialog: MatDialog) { 
-    this.blogService.getBlogs().subscribe((data: blog[]) => {
+    this.blogService.getBlogs().subscribe((data) => {
       if(this.blogs === null) {
         this.blogs = data;
       }
@@ -27,6 +27,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log("inside ngoninit");
     this.blogService.blogData$.subscribe(data => {
       this.blogs = data;
     });
@@ -50,8 +51,6 @@ export class HomeComponent implements OnInit {
   }
 
   openDialog(id: number)  {
-    console.log( JSON.stringify(this.blogs));
-   
     const dialogRef = this.dialog.open(CommmentDialog, {
       width: '70%',
       data: this.blogs[id].comments
@@ -66,12 +65,19 @@ export class HomeComponent implements OnInit {
   }
 
   onPostButtonClick(id: number, comment: string) {
+      console.log("inside post button click");
+      console.log("exisiting comments : " + JSON.stringify(this.blogs[id].comments));
+
       this.blogService.addData(this.blogs[id]).subscribe((data) =>{
-        this.blogs[id].comments.push({checked : false, value : comment});
-        this.blogs[data.id] = data;
+        console.log("data : " + JSON.stringify(data.comments));
+        data.comments.push({checked : false, value : comment});
+        this.blogs[id].comments = data.comments;
+        console.log("blog : " + JSON.stringify(this.blogs));
         this.blogService.setUpdatedBlog(this.blogs);
+        //console.log("blog : " + JSON.stringify(this.blogs));
+        this.comment.nativeElement.value = "";
       });
-      this.comment.nativeElement.value = "";
+     
   }
 
 
